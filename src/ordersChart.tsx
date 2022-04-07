@@ -1,9 +1,9 @@
 import {
-  Area,
-  AreaChart,
   CartesianGrid,
   LabelList,
   Legend,
+  Line,
+  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -22,7 +22,7 @@ interface IAreaChartProps {
 const OrdersChart = (props: IAreaChartProps) => {
   return (
     <ResponsiveContainer>
-      <AreaChart
+      <LineChart
         width={500}
         height={200}
         data={props.salesData}
@@ -41,29 +41,32 @@ const OrdersChart = (props: IAreaChartProps) => {
         <Legend verticalAlign="top" height={36} />
         {props.selectedLocations.map((selectedLocation, index) => {
           return (
-            <Area
+            <Line
               key={index}
-              type="linear"
+              type="monotone"
               legendType="rect"
               dataKey={(data) =>
                 data.location === selectedLocation.name ? data.orders : 0
               }
               name={selectedLocation.name}
               stroke={selectedLocation.strokeColor}
-              fill={selectedLocation.fillColor}
+              strokeWidth={2}
               scale="time"
+              dot={false}
             >
               <LabelList
+                fontSize={12}
+                fontWeight={600}
                 dataKey={(data: any) =>
                   data.orders > 0 && data.location === selectedLocation.name
                     ? data.orders
                     : ""
                 }
               />
-            </Area>
+            </Line>
           );
         })}
-      </AreaChart>
+      </LineChart>
     </ResponsiveContainer>
   );
 };

@@ -16,9 +16,9 @@ function App() {
   const [locations, setLocations] = useState([] as any[]);
 
   const selectedLocations = [
-    { name: "Burjuman", strokeColor: "#110f46", fillColor: "#625dbf" },
-    { name: "Noida", strokeColor: "#4f1119", fillColor: "#c73a5e" },
-    { name: "Kakkanad", strokeColor: "#325539", fillColor: "#7cbd4e" },
+    { name: "Burjuman", strokeColor: "#3a939d", fillColor: "#625dbf" },
+    { name: "Noida", strokeColor: "#943844", fillColor: "#c73a5e" },
+    { name: "Kakkanad", strokeColor: "#3ca751", fillColor: "#7cbd4e" },
   ];
 
   useEffect(() => {
@@ -81,46 +81,107 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Sales Dashboard</h1>
-      <h4
-        style={{
-          display: "inline",
-          paddingRight: "10px",
-        }}
-      >
-        {format(startDate, "dd MMM yyyy")} -{" "}
-        {endDate && format(endDate, "dd MMM yyyy")}
-      </h4>
-      <button
-        style={{ width: "30px", height: "30px" }}
-        onClick={() => setShowDatePicker(!showDatePicker)}
-      >
-        🗓
-      </button>
-      {showDatePicker && (
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <div className="header">
+          <h1>Sales Dashboard</h1>
+          <h4
+            style={{
+              display: "inline",
+              paddingRight: "10px",
+            }}
+          >
+            {format(startDate, "dd MMM yyyy")} -{" "}
+            {endDate && format(endDate, "dd MMM yyyy")}
+          </h4>
+          <button
+            style={{ width: "30px", height: "30px" }}
+            onClick={() => setShowDatePicker(!showDatePicker)}
+          >
+            🗓
+          </button>
+          {showDatePicker && (
+            <div
+              className="datePicker"
+              style={{
+                display: "block",
+                position: "absolute",
+                background: "#fff",
+                zIndex: 1,
+                top: "112px",
+              }}
+            >
+              <DatePicker
+                selected={startDate}
+                onChange={onChange}
+                startDate={startDate}
+                endDate={endDate}
+                includeDates={dateRange}
+                shouldCloseOnSelect
+                selectsRange
+                inline
+              />
+            </div>
+          )}
+        </div>
         <div
-          className="datePicker"
+          className="summary"
           style={{
-            display: "block",
-            position: "absolute",
-            background: "#fff",
-            zIndex: 1,
-            left: "245px",
-            top: "80px",
+            display: "flex",
+            height: "200px",
+            marginTop: "30px",
+            marginLeft: "80px",
           }}
         >
-          <DatePicker
-            selected={startDate}
-            onChange={onChange}
-            startDate={startDate}
-            endDate={endDate}
-            includeDates={dateRange}
-            shouldCloseOnSelect
-            selectsRange
-            inline
-          />
+          <div
+            className="total-revenue"
+            style={{
+              width: "200px",
+              height: "150px",
+              border: "0.5px solid #bababa",
+              borderRadius: "10px",
+              boxShadow: "20px 20px 40px #d9d9d9, -20px -20px 40px #ffffff",
+              marginRight: "30px",
+            }}
+          >
+            <p
+              style={{
+                textAlign: "center",
+                fontSize: "1rem",
+                color: "#6b6b6b",
+                fontWeight: "500",
+              }}
+            >
+              Total Revenue
+            </p>
+            <h1 style={{ textAlign: "center" }}>
+              {"INR "}
+              {totalRevenue}
+            </h1>
+          </div>
+          <div
+            className="total-orders"
+            style={{
+              width: "200px",
+              height: "150px",
+              border: "0.5px solid #bababa",
+              borderRadius: "10px",
+              boxShadow: "20px 20px 40px #d9d9d9, -20px -20px 40px #ffffff",
+            }}
+          >
+            <p
+              style={{
+                textAlign: "center",
+                fontSize: "1rem",
+                color: "#6b6b6b",
+                fontWeight: "500",
+              }}
+            >
+              Total Orders
+            </p>
+            <h1 style={{ textAlign: "center" }}>{totalOrders}</h1>
+          </div>
         </div>
-      )}
+      </div>
       <div
         className="charts"
         style={{
@@ -167,62 +228,6 @@ function App() {
             />
           </div>
         )}
-      </div>
-      <div
-        className="summary"
-        style={{
-          display: "flex",
-          height: "400px",
-          marginTop: "30px",
-          marginLeft: "40px",
-        }}
-      >
-        <div
-          className="total-revenue"
-          style={{
-            width: "200px",
-            height: "150px",
-            borderRadius: "10px",
-            boxShadow: "20px 20px 40px #d9d9d9, -20px -20px 40px #ffffff",
-            marginRight: "30px",
-          }}
-        >
-          <p
-            style={{
-              textAlign: "center",
-              fontSize: "1rem",
-              color: "#6b6b6b",
-              fontWeight: "500",
-            }}
-          >
-            Total Revenue
-          </p>
-          <h1 style={{ textAlign: "center" }}>
-            {"INR "}
-            {totalRevenue}
-          </h1>
-        </div>
-        <div
-          className="total-orders"
-          style={{
-            width: "200px",
-            height: "150px",
-            borderRadius: "10px",
-            boxShadow: "20px 20px 40px #d9d9d9, -20px -20px 40px #ffffff",
-          }}
-        >
-          <p
-            style={{
-              textAlign: "center",
-              fontSize: "1rem",
-              color: "#6b6b6b",
-              fontWeight: "500",
-            }}
-          >
-            Total Orders
-          </p>
-          <h1 style={{ textAlign: "center" }}>{totalOrders}</h1>
-        </div>
       </div>
     </div>
   );

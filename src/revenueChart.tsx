@@ -1,9 +1,9 @@
 import {
-  Area,
-  AreaChart,
   CartesianGrid,
   LabelList,
   Legend,
+  Line,
+  LineChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -22,7 +22,7 @@ interface IRevenueChartProps {
 const RevenueChart = (props: IRevenueChartProps) => {
   return (
     <ResponsiveContainer>
-      <AreaChart
+      <LineChart
         data={props.salesData}
         margin={{
           top: 25,
@@ -39,29 +39,33 @@ const RevenueChart = (props: IRevenueChartProps) => {
         <Legend verticalAlign="top" height={36} />
         {props.selectedLocations.map((selectedLocation, index) => {
           return (
-            <Area
+            <Line
               key={index}
-              type="linear"
+              type="monotone"
               legendType="rect"
               dataKey={(data) =>
                 data.location === selectedLocation.name ? data.total_sale : 0
               }
               name={selectedLocation.name}
               stroke={selectedLocation.strokeColor}
-              fill={selectedLocation.fillColor}
+              strokeWidth={2}
               scale="time"
+              dot={false}
             >
               <LabelList
+                fontSize={12}
+                fontWeight={600}
+                offset={100}
                 dataKey={(data: any) =>
                   data.total_sale > 0 && data.location === selectedLocation.name
                     ? data.total_sale
                     : ""
                 }
               />
-            </Area>
+            </Line>
           );
         })}
-      </AreaChart>
+      </LineChart>
     </ResponsiveContainer>
   );
 };
